@@ -4,11 +4,17 @@
     position: relative;
 
     &__label {
+        width: 250px;
         display: flex;
         align-items: center;
 
+
         svg {
             margin-right: 8px;
+        }
+
+        svg.active {
+            transform: rotate(-180deg);
         }
 
         b {

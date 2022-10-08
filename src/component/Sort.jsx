@@ -1,8 +1,23 @@
+import { useState } from "react";
+
 function Sort() {
+    const [clickSort, setClickSort] = useState(false);
+    const [activeSort, setActiveSort] = useState(0);
+
+    const onClickSortName = (id) => {
+        setActiveSort(id);
+
+        setClickSort(!clickSort);
+
+
+    }
+
+    const sortName = ['популярності', 'ціни', 'алфавіту'];
+
     return (
         <div className="sort">
             <div className="sort__label">
-                <svg
+                <svg className={clickSort ? "active" : ""}
                     width="10"
                     height="6"
                     viewBox="0 0 10 6"
@@ -15,15 +30,31 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span onClick={() => setClickSort(!clickSort)}>{sortName[activeSort]}</span>
             </div>
-            <div className="sort__popup">
-                <ul>
-                    <li className="active">популярности</li>
-                    <li>цене</li>
-                    <li>алфавиту</li>
-                </ul>
-            </div>
+            {
+                clickSort &&
+                (
+                    <div className="sort__popup">
+                        <ul>
+                            {
+                                sortName.map((item, id) => (
+                                    <li
+                                        key={id}
+                                        className={activeSort === id ? "active" : ""}
+                                        onClick={() => onClickSortName(id)}
+
+                                    >{item}
+                                    </li>
+                                ))
+                            }
+
+                        </ul>
+                    </div>
+                )
+
+            }
+
         </div>
     )
 }
