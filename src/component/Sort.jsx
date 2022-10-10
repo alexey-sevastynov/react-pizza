@@ -1,18 +1,20 @@
 import { useState } from "react";
 
-function Sort() {
-    const [clickSort, setClickSort] = useState(false);
-    const [activeSort, setActiveSort] = useState(0);
+function Sort({ value, onChangeSort }) {
+    const [clickSort, setClickSort] = useState(false); // 
 
     const onClickSortName = (id) => {
-        setActiveSort(id);
-
+        onChangeSort(id);
         setClickSort(!clickSort);
-
-
     }
 
-    const sortName = ['популярності', 'ціни', 'алфавіту'];
+    const sortName = [
+        { name: 'за рейтингом', sortProperty: 'rating' },
+        { name: 'від дорогоих до дешевих', sortProperty: 'price' },
+        { name: 'від дешевих до дорогих', sortProperty: '-price' },
+        { name: 'за алфавітом Я-А', sortProperty: 'title' },
+        { name: 'за алфавітом А-Я', sortProperty: '-title' }
+    ];
 
     return (
         <div className="sort">
@@ -30,7 +32,7 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setClickSort(!clickSort)}>{sortName[activeSort]}</span>
+                <span onClick={() => setClickSort(!clickSort)}>{value.name}</span>
             </div>
             {
                 clickSort &&
@@ -41,10 +43,10 @@ function Sort() {
                                 sortName.map((item, id) => (
                                     <li
                                         key={id}
-                                        className={activeSort === id ? "active" : ""}
-                                        onClick={() => onClickSortName(id)}
+                                        className={value.sortProperty === item.sortProperty ? "active" : ""}
+                                        onClick={() => onClickSortName(item)}
 
-                                    >{item}
+                                    >{item.name}
                                     </li>
                                 ))
                             }

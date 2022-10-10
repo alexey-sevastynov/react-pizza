@@ -9,12 +9,6 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Cart from "./pages/Cart";
 
-
-
-
-
-import { useState } from 'react';
-
 const pizzas = [
   // {
   //   id: 0,
@@ -71,26 +65,22 @@ const pizzas = [
 
 function App() {
 
-
-
-
-
   return (
     <div className="App">
       <div className="wrapper">
         <Header />
         <div className="content">
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="*" element={<NotFound />} />
 
-              {/* <NotFound /> */}
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
+
+            {/* <NotFound /> */}
+          </Routes>
 
 
-          </div>
+
         </div>
       </div>
     </div >
