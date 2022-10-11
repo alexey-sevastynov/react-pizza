@@ -1,12 +1,18 @@
+
+
 import Categories from '../component/Categories';
 import Sort from '../component/Sort';
 import PizzaBlock from '../component/PizzaBlock/PizzaBlock';
 import Skeleton from '../component/PizzaBlock/Skeleton';
+import Pagination from '../component/Pagination';
 
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { MyContext } from '../App';
 
 function Home() {
+    const { searchValue } = useContext(MyContext);
+
     const [items, setItems] = useState([]); // pizza MockApi
 
     const [isLoading, setIsLoading] = useState(true); // skilleton
@@ -17,6 +23,8 @@ function Home() {
         sortProperty: 'raiting'
     });
 
+    const [currentPage, setCurrentPage] = useState(1);
+
     useEffect(() => {
         setIsLoading(true); //loading skilleton
 
@@ -25,7 +33,8 @@ function Home() {
         const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
 
 
-        fetch(`https://633005f6f5fda801f8d97d50.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${order}`)
+
+        fetch(`https://633005f6f5fda801f8d97d50.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
             .then(res => res.json())
             .then(arr => {
                 setItems(arr);
@@ -33,7 +42,30 @@ function Home() {
             });
         window.scrollTo(0, 0); // Loading pages TOP ! ! !
 
-    }, [categoryId, sortType]);
+    }, [categoryId, sortType, currentPage]);
+
+
+
+    const skeletons = [...new Array(8)].map((item, id) => <Skeleton key={id} />);
+    const pizzas = items
+        .filter(pizza => {
+            if (pizza.title.toLowerCase().includes(searchValue.toLowerCase())) {
+                return true;
+            }
+            return false;
+        })
+        .map((pizza, id) => (
+            <PizzaBlock
+                key={id}
+                // title={pizza.title}
+                // types={pizza.types}
+                // price={pizza.price}
+                // image={pizza.image}
+                // sizes={pizza.sizes}
+                {...pizza} // SPRET OPERATOR !!!
+            />
+        ));
+
     return (
         <div className='container'>
             <div className="content__top">
@@ -48,22 +80,9 @@ function Home() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {isLoading ?
-                    [...new Array(8)].map((item, id) => <Skeleton key={id} />) :
-                    items.map((pizza, id) => (
-                        <PizzaBlock
-                            key={id}
-                            // title={pizza.title}
-                            // types={pizza.types}
-                            // price={pizza.price}
-                            // image={pizza.image}
-                            // sizes={pizza.sizes}
-                            {...pizza} // SPRET OPERATOR !!!
-
-
-                        />
-                    ))}
+                {isLoading ? skeletons : pizzas}
             </div>
+            <Pagination onChangePage={number => setCurrentPage(number)} />
         </div>
     )
 }

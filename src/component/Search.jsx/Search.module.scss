@@ -1,0 +1,49 @@
+.root {
+    position: relative;
+    left: -120px;
+}
+
+.input {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 8px 1px 8px 45px;
+    width: 400px;
+    border-radius: 5px;
+    font-size: 18px;
+
+    transition: all 0.15s ease-in-out;
+
+    // &:focus {
+    //     border: 1px solid rgba(0, 0, 0, 0.6);
+    //     width: 500px;
+    // }
+}
+
+.icon__find {
+    position: absolute;
+
+    width: 24px;
+    height: 24px;
+    opacity: 0.4;
+    left: 12px;
+
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icon__close {
+    position: absolute;
+
+
+    width: 18px;
+    height: 18px;
+    opacity: 0.4;
+    right: 12px;
+
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
